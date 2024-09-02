@@ -286,6 +286,10 @@ NSString * const TMMemoryCachePrefix = @"com.tumblr.TMMemoryCache";
         if (strongSelf->_willAddObjectBlock)
             strongSelf->_willAddObjectBlock(strongSelf, key, object);
 
+        NSNumber *oldCost = [strongSelf->_costs objectForKey:key];
+        if (oldCost)
+            _totalCost -= [oldCost unsignedIntegerValue];
+
         [strongSelf->_dictionary setObject:object forKey:key];
         [strongSelf->_dates setObject:now forKey:key];
         [strongSelf->_costs setObject:@(cost) forKey:key];
